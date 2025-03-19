@@ -137,6 +137,73 @@
             bottom: 0;
             width: 100%;
         }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: white;
+        }
+
+        body.dark-mode nav {
+            background-color: #333;
+        }
+
+        body.dark-mode .chirp-form, body.dark-mode .sidebar {
+            background-color: #333;
+        }
+
+        /* Profile Picture */
+        .profile-picture {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Like, Bookmark, Delete button styles */
+        .button-group button {
+            background-color: #f5f8fa;
+            border: 1px solid #1da1f2;
+            color: #1da1f2;
+            border-radius: 20px;
+            margin-right: 10px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .button-group button:hover {
+            background-color: #1da1f2;
+            color: white;
+        }
+
+        /* Comment section styles */
+        .comment-section {
+            margin-top: 10px;
+            margin-left: 20px;
+        }
+
+        .comment-box {
+            margin-top: 10px;
+        }
+
+        .comment-box input {
+            width: 80%;
+            padding: 5px;
+            margin-bottom: 5px;
+        }
+
+        .comment-box button {
+            background-color: #1da1f2;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .comment-box button:hover {
+            background-color: #0d95e8;
+        }
     </style>
 </head>
 <body>
@@ -150,6 +217,7 @@
             <a href="#settings">Settings</a>
             <a href="#notifications">Notifications</a>
             <a href="#bookmarks">Bookmarks</a>
+            <a href="#" id="logout">Log Out</a>
         </div>
     </nav>
 
@@ -169,10 +237,10 @@
             <section id="home">
                 <h2>Home</h2>
                 <div class="chirp-form">
-                    <textarea placeholder="What's happening?"></textarea>
-                    <button>Chirp</button>
+                    <textarea id="tweetText" placeholder="What's happening?"></textarea>
+                    <button onclick="postTweet()">Chirp</button>
                 </div>
-                <div class="chirps">
+                <div class="chirps" id="chirps">
                     <p>No chirps yet. Start the conversation!</p>
                 </div>
             </section>
@@ -184,28 +252,52 @@
                 </div>
                 <div class="profile-info">
                     <div>
+                        <img src="default.jpg" alt="Profile Picture" class="profile-picture" id="profilePic">
                         <h3>Username</h3>
-                        <p>@username</p>
+                        <p id="profileUsername">@username</p>
                     </div>
                     <div>
                         <h3>Posts</h3>
-                        <p>0 Chirps</p>
+                        <p id="postsCount">0 Chirps</p>
                     </div>
                     <div>
                         <h3>Followers</h3>
-                        <p>0 Followers</p>
+                        <p id="followersCount">0 Followers</p>
                     </div>
                     <div>
                         <h3>Following</h3>
-                        <p>0 Following</p>
+                        <p id="followingCount">0 Following</p>
                     </div>
+                </div>
+                <div class="bio-section">
+                    <h3>Bio</h3>
+                    <p id="profileBio">This is your bio.</p>
                 </div>
             </section>
 
             <!-- Settings Page -->
             <section id="settings" style="display:none;">
                 <h2>Settings</h2>
-                <p>Adjust your preferences here.</p>
+                <label for="darkMode">Dark Mode</label>
+                <input type="checkbox" id="darkMode" onchange="toggleDarkMode()">
+                <br><br>
+                <label for="language">Select Language</label>
+                <select id="language" onchange="changeLanguage()">
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                </select>
+                <br><br>
+                <label for="username">Change Username</label>
+                <input type="text" id="username" placeholder="Enter new username">
+                <button onclick="changeUsername()">Change Username</button>
+                <br><br>
+                <label for="bio">Change Bio</label>
+                <textarea id="bio" placeholder="Enter new bio"></textarea>
+                <button onclick="changeBio()">Change Bio</button>
+                <br><br>
+                <label for="profilePicInput">Change Profile Picture</label>
+                <input type="file" id="profilePicInput" onchange="changeProfilePic()">
             </section>
 
             <!-- Notifications Page -->
@@ -217,7 +309,9 @@
             <!-- Bookmarks Page -->
             <section id="bookmarks" style="display:none;">
                 <h2>Bookmarks</h2>
-                <p>No bookmarks saved yet.</p>
+                <div id="bookmarkedTweets">
+                    <p>No bookmarks saved yet.</p>
+                </div>
             </section>
         </main>
     </div>
@@ -230,6 +324,16 @@
     <script>
         const links = document.querySelectorAll('nav a, .sidebar a');
         const sections = document.querySelectorAll('section');
+        const profileUsername = document.getElementById('profileUsername');
+        const profileBio = document.getElementById('profileBio');
+        const profilePic = document.getElementById('profilePic');
+        const postsCount = document.getElementById('postsCount');
+        const followersCount = document.getElementById('followersCount');
+        const followingCount = document.getElementById('followingCount');
+        const bookmarkedTweetsContainer = document.getElementById('bookmarkedTweets');
+        const chirpsContainer = document.getElementById('chirps');
+        let chirps = [];
+        let bookmarks = [];
 
         links.forEach(link => {
             link.addEventListener('click', function(e) {
@@ -239,6 +343,130 @@
                 sections.forEach(section => section.style.display = 'none');
                 target.style.display = 'block';
             });
+        });
+
+        function postTweet() {
+            const tweetText = document.getElementById('tweetText').value;
+            if (tweetText) {
+                chirps.push({ text: tweetText, likes: 0, reposted: false, comments: [] });
+                updateChirps();
+                document.getElementById('tweetText').value = '';
+            }
+        }
+
+        function updateChirps() {
+            chirpsContainer.innerHTML = '';
+            chirps.forEach((chirp, index) => {
+                const chirpDiv = document.createElement('div');
+                chirpDiv.innerHTML = `
+                    <p>${chirp.reposted ? "<strong>Reposted:</strong> " : ""}${chirp.text}</p>
+                    <p>Likes: ${chirp.likes}</p>
+                    <div class="button-group">
+                        <button onclick="likeChirp(${index})">Like</button>
+                        <button onclick="bookmarkChirp(${index})">Bookmark</button>
+                        <button onclick="deleteChirp(${index})">Delete</button>
+                        <button onclick="repostChirp(${index})">Repost</button>
+                    </div>
+                    <div class="comment-section">
+                        <div class="comment-box">
+                            <input type="text" id="commentInput${index}" placeholder="Write a comment">
+                            <button onclick="postComment(${index})">Post Comment</button>
+                        </div>
+                        <div id="comments${index}">
+                            ${chirp.comments.map(comment => `<p>${comment}</p>`).join('')}
+                        </div>
+                    </div>
+                `;
+                chirpsContainer.appendChild(chirpDiv);
+            });
+        }
+
+        function likeChirp(index) {
+            chirps[index].likes++;
+            updateChirps();
+        }
+
+        function bookmarkChirp(index) {
+            bookmarks.push(chirps[index]);
+            updateBookmarks();
+        }
+
+        function deleteChirp(index) {
+            chirps.splice(index, 1);
+            updateChirps();
+        }
+
+        function repostChirp(index) {
+            const repostedChirp = { ...chirps[index], reposted: true };
+            chirps.unshift(repostedChirp);
+            updateChirps();
+        }
+
+        function postComment(index) {
+            const commentInput = document.getElementById(`commentInput${index}`);
+            const commentText = commentInput.value;
+            if (commentText) {
+                chirps[index].comments.push(commentText);
+                updateChirps();
+                commentInput.value = '';
+            }
+        }
+
+        function updateBookmarks() {
+            if (bookmarks.length === 0) {
+                bookmarkedTweetsContainer.innerHTML = '<p>No bookmarks saved yet.</p>';
+            } else {
+                bookmarkedTweetsContainer.innerHTML = '';
+                bookmarks.forEach(bookmark => {
+                    const bookmarkDiv = document.createElement('div');
+                    bookmarkDiv.innerHTML = `<p>${bookmark.text}</p>`;
+                    bookmarkedTweetsContainer.appendChild(bookmarkDiv);
+                });
+            }
+        }
+
+        // Dark mode functionality
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        // Change language functionality (for future expansion)
+        function changeLanguage() {
+            const lang = document.getElementById('language').value;
+            alert(`Language changed to: ${lang}`);
+        }
+
+        // Change Username functionality
+        function changeUsername() {
+            const newUsername = document.getElementById('username').value;
+            profileUsername.textContent = `@${newUsername}`;
+            alert(`Username changed to: @${newUsername}`);
+        }
+
+        // Change Bio functionality
+        function changeBio() {
+            const newBio = document.getElementById('bio').value;
+            profileBio.textContent = newBio;
+            alert(`Bio updated!`);
+        }
+
+        // Change Profile Picture functionality
+        function changeProfilePic() {
+            const fileInput = document.getElementById('profilePicInput');
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    profilePic.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Log out functionality
+        document.getElementById('logout').addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent default behavior of the link
+            window.location.href = 'index.php'; // Redirect to the sign-in page
         });
     </script>
 </body>
