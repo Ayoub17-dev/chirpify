@@ -5,210 +5,221 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chirpify</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f8fa;
-        }
+   
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f8fa;
+    color: #14171a;
+    transition: background-color 0.3s, color 0.3s;
+}
 
-        /* Navbar styles */
-        nav {
-            background-color: #1da1f2;
-            padding: 10px;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+a {
+    text-decoration: none;
+    color: #1da1f2;
+}
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            padding: 0 15px;
-        }
+a:hover {
+    text-decoration: underline;
+}
 
-        nav a:hover {
-            text-decoration: underline;
-        }
 
-        .logo {
-            font-size: 1.5em;
-            font-weight: bold;
-        }
+nav {
+    background-color: #ffffff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e1e8ed;
+}
 
-        .container {
-            display: flex;
-            justify-content: space-between;
-        }
+nav a {
+    color: #1da1f2;
+    margin-left: 20px;
+}
 
-        /* Sidebar styles */
-        .sidebar {
-            width: 20%;
-            background-color: white;
-            padding: 20px;
-            height: 100vh;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
 
-        .sidebar a {
-            display: block;
-            padding: 10px 0;
-            color: #1da1f2;
-            text-decoration: none;
-        }
+.sidebar {
+    width: 250px;
+    background-color: #ffffff;
+    border-right: 1px solid #e1e8ed;
+    height: 100vh;
+    position: fixed;
+    padding-top: 20px;
+}
 
-        .sidebar a:hover {
-            background-color: #e8f5fe;
-            border-radius: 20px;
-            padding-left: 10px;
-        }
+.sidebar a {
+    display: block;
+    padding: 10px 20px;
+    color: #14171a;
+}
 
-        /* Main content area */
-        .content {
-            width: 60%;
-            padding: 20px;
-        }
+.sidebar a:hover {
+    background-color: #e8f5fe;
+    color: #1da1f2;
+}
 
-        /* Profile Page styles */
-        .profile-header {
-            background-color: #1da1f2;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
 
-        .profile-header h1 {
-            margin: 0;
-        }
+.content {
+    margin-left: 270px;
+    padding: 20px;
+}
 
-        .profile-info {
-            display: flex;
-            justify-content: space-around;
-            padding: 20px;
-            background-color: white;
-            margin-top: -50px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
 
-        .profile-info div {
-            text-align: center;
-        }
+.chirp-form {
+    background-color: #ffffff;
+    padding: 15px;
+    border: 1px solid #e1e8ed;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
 
-        /* Chirp form styles */
-        .chirp-form {
-            background-color: white;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
+.chirp-form textarea {
+    width: 100%;
+    height: 80px;
+    border: 1px solid #ccd6dd;
+    border-radius: 4px;
+    padding: 10px;
+    resize: none;
+    font-size: 14px;
+}
 
-        .chirp-form textarea {
-            width: 100%;
-            height: 100px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
 
-        .chirp-form button {
-            background-color: #1da1f2;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-        }
+.chirp {
+    background-color: #ffffff;
+    padding: 15px;
+    border: 1px solid #e1e8ed;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
 
-        .chirp-form button:hover {
-            background-color: #0d95e8;
-        }
+.chirp img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 10px;
+}
 
-        /* Footer styles */
-        footer {
-            background-color: #1da1f2;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
 
-        /* Dark Mode Styles */
-        body.dark-mode {
-            background-color: #121212;
-            color: white;
-        }
+.button-group {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
 
-        body.dark-mode nav {
-            background-color: #333;
-        }
+.button-group button {
+    margin-left: 10px;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #1da1f2;
+    color: #fff;
+}
 
-        body.dark-mode .chirp-form, body.dark-mode .sidebar {
-            background-color: #333;
-        }
+.button-group button:hover {
+    background-color: #0d8ddb;
+}
 
-        /* Profile Picture */
-        .profile-picture {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
 
-        /* Like, Bookmark, Delete button styles */
-        .button-group button {
-            background-color: #f5f8fa;
-            border: 1px solid #1da1f2;
-            color: #1da1f2;
-            border-radius: 20px;
-            margin-right: 10px;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
+.profile-header {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
 
-        .button-group button:hover {
-            background-color: #1da1f2;
-            color: white;
-        }
+.profile-header button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    border-radius: 9999px;
+    background-color: #1da1f2;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
 
-        /* Comment section styles */
-        .comment-section {
-            margin-top: 10px;
-            margin-left: 20px;
-        }
+.profile-header button:hover {
+    background-color: #0d8ddb;
+}
 
-        .comment-box {
-            margin-top: 10px;
-        }
+.profile-info {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    border-top: 1px solid #e1e8ed;
+    border-bottom: 1px solid #e1e8ed;
+}
 
-        .comment-box input {
-            width: 80%;
-            padding: 5px;
-            margin-bottom: 5px;
-        }
+.profile-info div {
+    text-align: center;
+}
 
-        .comment-box button {
-            background-color: #1da1f2;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 10px;
-            cursor: pointer;
-        }
+.bio-section {
+    padding: 20px;
+}
 
-        .comment-box button:hover {
-            background-color: #0d95e8;
-        }
-    </style>
+.profile-chirps {
+    padding: 20px;
+}
+
+
+.comment-box {
+    display: flex;
+    margin-top: 10px;
+}
+
+.comment-box input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccd6dd;
+    border-radius: 4px;
+}
+
+
+body.dark-mode {
+    background-color: #15202b;
+    color: #e1e8ed;
+}
+
+body.dark-mode nav,
+body.dark-mode .sidebar,
+body.dark-mode .content,
+body.dark-mode .chirp-form,
+body.dark-mode .chirp,
+body.dark-mode .profile-header,
+body.dark-mode .bio-section,
+body.dark-mode .profile-info {
+    background-color: #192734;
+    color: #e1e8ed;
+    border-color: #2f3336;
+}
+
+body.dark-mode .chirp-form textarea,
+body.dark-mode .comment-box input {
+    background-color: #22303c;
+    color: #e1e8ed;
+    border-color: #2f3336;
+}
+
+body.dark-mode .button-group button,
+body.dark-mode nav a,
+body.dark-mode .sidebar a {
+    color: #8899a6;
+}
+
+body.dark-mode .sidebar a:hover,
+body.dark-mode nav a:hover {
+    background-color: #22303c;
+    color: #1da1f2;
+}
+
+</style>
+
 </head>
 <body>
 
-    <!-- Navigation Bar -->
     <nav>
         <div class="logo">Chirpify</div>
         <div>
@@ -222,7 +233,7 @@
     </nav>
 
     <div class="container">
-        <!-- Sidebar -->
+        
         <aside class="sidebar">
             <a href="#home">Home</a>
             <a href="#profile">Profile</a>
@@ -231,13 +242,14 @@
             <a href="#bookmarks">Bookmarks</a>
         </aside>
 
-        <!-- Main Content -->
+        
         <main class="content">
-            <!-- Home Page -->
+            
             <section id="home">
                 <h2>Home</h2>
                 <div class="chirp-form">
                     <textarea id="tweetText" placeholder="What's happening?"></textarea>
+                    <input type="file" id="tweetImage" accept="image/*">
                     <button onclick="postTweet()">Chirp</button>
                 </div>
                 <div class="chirps" id="chirps">
@@ -245,17 +257,15 @@
                 </div>
             </section>
 
-            <!-- Profile Page -->
+            
             <section id="profile" style="display:none;">
                 <div class="profile-header">
-                    <h1>Your Profile</h1>
+                    <img src="default.jpg" alt="Profile Picture" class="profile-picture" id="profilePic">
+                    <h1 id="profileName">Username</h1>
+                    <p id="profileUsername">@username</p>
+                    <button onclick="editProfile()">Edit Profile</button>
                 </div>
                 <div class="profile-info">
-                    <div>
-                        <img src="default.jpg" alt="Profile Picture" class="profile-picture" id="profilePic">
-                        <h3>Username</h3>
-                        <p id="profileUsername">@username</p>
-                    </div>
                     <div>
                         <h3>Posts</h3>
                         <p id="postsCount">0 Chirps</p>
@@ -273,9 +283,15 @@
                     <h3>Bio</h3>
                     <p id="profileBio">This is your bio.</p>
                 </div>
+                <div class="profile-chirps">
+                    <h2>Your Chirps</h2>
+                    <div id="userChirps">
+                        <p>No chirps yet.</p>
+                    </div>
+                </div>
             </section>
 
-            <!-- Settings Page -->
+            
             <section id="settings" style="display:none;">
                 <h2>Settings</h2>
                 <label for="darkMode">Dark Mode</label>
@@ -300,13 +316,13 @@
                 <input type="file" id="profilePicInput" onchange="changeProfilePic()">
             </section>
 
-            <!-- Notifications Page -->
+            
             <section id="notifications" style="display:none;">
                 <h2>Notifications</h2>
                 <p>No new notifications.</p>
             </section>
 
-            <!-- Bookmarks Page -->
+            
             <section id="bookmarks" style="display:none;">
                 <h2>Bookmarks</h2>
                 <div id="bookmarkedTweets">
@@ -316,22 +332,19 @@
         </main>
     </div>
 
-    <!-- Footer -->
+    
     <footer>
         &copy; 2025 Chirpify
     </footer>
 
     <script>
+        function toggleDarkMode() {
+        document.body.classList.toggle("dark-mode");
+    }
         const links = document.querySelectorAll('nav a, .sidebar a');
         const sections = document.querySelectorAll('section');
-        const profileUsername = document.getElementById('profileUsername');
-        const profileBio = document.getElementById('profileBio');
-        const profilePic = document.getElementById('profilePic');
-        const postsCount = document.getElementById('postsCount');
-        const followersCount = document.getElementById('followersCount');
-        const followingCount = document.getElementById('followingCount');
-        const bookmarkedTweetsContainer = document.getElementById('bookmarkedTweets');
         const chirpsContainer = document.getElementById('chirps');
+        const userChirpsContainer = document.getElementById('userChirps');
         let chirps = [];
         let bookmarks = [];
 
@@ -347,10 +360,15 @@
 
         function postTweet() {
             const tweetText = document.getElementById('tweetText').value;
-            if (tweetText) {
-                chirps.push({ text: tweetText, likes: 0, reposted: false, comments: [] });
+            const tweetImage = document.getElementById('tweetImage').files[0];
+            const tweetData = { text: tweetText, likes: 0, reposted: false, comments: [], image: tweetImage };
+
+            if (tweetText || tweetImage) {
+                chirps.push(tweetData);
                 updateChirps();
+                updateUserChirps();
                 document.getElementById('tweetText').value = '';
+                document.getElementById('tweetImage').value = '';
             }
         }
 
@@ -358,11 +376,11 @@
             chirpsContainer.innerHTML = '';
             chirps.forEach((chirp, index) => {
                 const chirpDiv = document.createElement('div');
-                chirpDiv.innerHTML = `
+                chirpDiv.classList.add('chirp');
+                let chirpContent = `
                     <p>${chirp.reposted ? "<strong>Reposted:</strong> " : ""}${chirp.text}</p>
-                    <p>Likes: ${chirp.likes}</p>
+                    <p>Likes: <span class="heart" onclick="likeChirp(${index})">&#9829;</span> ${chirp.likes}</p>
                     <div class="button-group">
-                        <button onclick="likeChirp(${index})">Like</button>
                         <button onclick="bookmarkChirp(${index})">Bookmark</button>
                         <button onclick="deleteChirp(${index})">Delete</button>
                         <button onclick="repostChirp(${index})">Repost</button>
@@ -373,17 +391,59 @@
                             <button onclick="postComment(${index})">Post Comment</button>
                         </div>
                         <div id="comments${index}">
-                            ${chirp.comments.map(comment => `<p>${comment}</p>`).join('')}
+                            ${chirp.comments.map(comment => `
+                                <p><strong>@username</strong>: ${comment} <button onclick="deleteComment(${index}, ${chirp.comments.indexOf(comment)})">Delete</button></p>
+                            `).join('')}
                         </div>
-                    </div>
-                `;
+                    </div>`;
+
+                if (chirp.image) {
+                    chirpContent += `<img src="${URL.createObjectURL(chirp.image)}" alt="Tweet image">`;
+                }
+
+                chirpDiv.innerHTML = chirpContent;
                 chirpsContainer.appendChild(chirpDiv);
             });
         }
 
+        function updateUserChirps() {
+            userChirpsContainer.innerHTML = '';
+            chirps.forEach((chirp, index) => {
+                const chirpDiv = document.createElement('div');
+                chirpDiv.classList.add('chirp');
+                let chirpContent = `
+                    <p>${chirp.reposted ? "<strong>Reposted:</strong> " : ""}${chirp.text}</p>
+                    <p>Likes: <span class="heart" onclick="likeChirp(${index})">&#9829;</span> ${chirp.likes}</p>
+                    <div class="button-group">
+                        <button onclick="bookmarkChirp(${index})">Bookmark</button>
+                        <button onclick="deleteChirp(${index})">Delete</button>
+                        <button onclick="repostChirp(${index})">Repost</button>
+                    </div>
+                    <div class="comment-section">
+                        <div class="comment-box">
+                            <input type="text" id="commentInput${index}" placeholder="Write a comment">
+                            <button onclick="postComment(${index})">Post Comment</button>
+                        </div>
+                        <div id="comments${index}">
+                            ${chirp.comments.map(comment => `
+                                <p><strong>@username</strong>: ${comment} <button onclick="deleteComment(${index}, ${chirp.comments.indexOf(comment)})">Delete</button></p>
+                            `).join('')}
+                        </div>
+                    </div>`;
+
+                if (chirp.image) {
+                    chirpContent += `<img src="${URL.createObjectURL(chirp.image)}" alt="Tweet image">`;
+                }
+
+                chirpDiv.innerHTML = chirpContent;
+                userChirpsContainer.appendChild(chirpDiv);
+            });
+        }
+
         function likeChirp(index) {
-            chirps[index].likes++;
+            chirps[index].likes = chirps[index].likes ? 0 : 1;  
             updateChirps();
+            updateUserChirps();
         }
 
         function bookmarkChirp(index) {
@@ -394,12 +454,14 @@
         function deleteChirp(index) {
             chirps.splice(index, 1);
             updateChirps();
+            updateUserChirps();
         }
 
         function repostChirp(index) {
             const repostedChirp = { ...chirps[index], reposted: true };
             chirps.unshift(repostedChirp);
             updateChirps();
+            updateUserChirps();
         }
 
         function postComment(index) {
@@ -408,66 +470,74 @@
             if (commentText) {
                 chirps[index].comments.push(commentText);
                 updateChirps();
+                updateUserChirps();
                 commentInput.value = '';
             }
         }
 
+        function deleteComment(index, commentIndex) {
+            chirps[index].comments.splice(commentIndex, 1);
+            updateChirps();
+            updateUserChirps();
+        }
+
         function updateBookmarks() {
-            if (bookmarks.length === 0) {
-                bookmarkedTweetsContainer.innerHTML = '<p>No bookmarks saved yet.</p>';
+            const bookmarksContainer = document.getElementById('bookmarkedTweets');
+            if (bookmarks.length) {
+                bookmarksContainer.innerHTML = bookmarks.map(bookmark => `
+                    <div class="chirp">
+                        <p>${bookmark.text}</p>
+                    </div>
+                `).join('');
             } else {
-                bookmarkedTweetsContainer.innerHTML = '';
-                bookmarks.forEach(bookmark => {
-                    const bookmarkDiv = document.createElement('div');
-                    bookmarkDiv.innerHTML = `<p>${bookmark.text}</p>`;
-                    bookmarkedTweetsContainer.appendChild(bookmarkDiv);
-                });
+                bookmarksContainer.innerHTML = '<p>No bookmarks saved yet.</p>';
             }
         }
 
-        // Dark mode functionality
+       
         function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
         }
 
-        // Change language functionality (for future expansion)
+        
         function changeLanguage() {
-            const lang = document.getElementById('language').value;
-            alert(`Language changed to: ${lang}`);
+            const language = document.getElementById('language').value;
+            alert(`Language changed to: ${language}`);
         }
 
-        // Change Username functionality
+        
         function changeUsername() {
             const newUsername = document.getElementById('username').value;
-            profileUsername.textContent = `@${newUsername}`;
-            alert(`Username changed to: @${newUsername}`);
+            document.getElementById('profileUsername').innerText = `@${newUsername}`;
         }
 
-        // Change Bio functionality
+        
         function changeBio() {
             const newBio = document.getElementById('bio').value;
-            profileBio.textContent = newBio;
-            alert(`Bio updated!`);
+            document.getElementById('profileBio').innerText = newBio;
         }
 
-        // Change Profile Picture functionality
+        
         function changeProfilePic() {
-            const fileInput = document.getElementById('profilePicInput');
-            const file = fileInput.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    profilePic.src = e.target.result;
-                }
-                reader.readAsDataURL(file);
-            }
+            const file = document.getElementById('profilePicInput').files[0];
+            document.getElementById('profilePic').src = URL.createObjectURL(file);
         }
 
-        // Log out functionality
+    
+        function editProfile() {
+            const newName = prompt('Enter your new name:');
+            const newBio = prompt('Enter your new bio:');
+            if (newName) document.getElementById('profileName').innerText = newName;
+            if (newBio) document.getElementById('profileBio').innerText = newBio;
+        }
+
+        
         document.getElementById('logout').addEventListener('click', function(e) {
-            e.preventDefault(); // Prevent default behavior of the link
-            window.location.href = 'index.php'; // Redirect to the sign-in page
+            e.preventDefault();
+            alert('You have been logged out.');
+            window.location.href = 'index.php'; 
         });
     </script>
+
 </body>
-</html>
+</html> 
