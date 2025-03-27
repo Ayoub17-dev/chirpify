@@ -17,9 +17,12 @@ include("connect.php");
       <p  style="font-size:50px; font-weight:bold;">
        Hello  <?php 
        if(isset($_SESSION['email'])){
-        $email=$_SESSION['email'];
-        $query=mysqli_query($conn, "SELECT users.* FROM `users` WHERE users.email='$email'");
-        while($row=mysqli_fetch_array($query)){
+        $email = $_SESSION['email'];
+        $query = $conn->prepare("SELECT users.* FROM `users` WHERE users.email = :email");
+        $query->bindParam(':email', $email);
+        $query->execute();
+        
+        while($row = $query->fetch(PDO::FETCH_ASSOC)){
             echo $row['firstName'].' '.$row['lastName'];
         }
        }
