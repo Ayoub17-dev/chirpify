@@ -555,3 +555,57 @@ function changeBannerPic() {
             window.location.href = 'index.php'; 
         }
     });
+    document.querySelectorAll('aside a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            if (this.getAttribute('href').startsWith('#')) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                
+               
+                document.querySelectorAll('main section').forEach(section => {
+                    section.style.display = 'none';
+                });
+                
+                
+                document.getElementById(targetId).style.display = 'block';
+                
+                
+                document.querySelectorAll('aside a').forEach(a => {
+                    a.classList.remove('active');
+                });
+                this.classList.add('active');
+            }
+        });
+    });
+    
+   
+    document.getElementById('settingsForm')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        
+        fetch('update_profile.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Profile updated successfully!');
+                location.reload();
+            } else {
+                alert('Error: ' + (data.message || 'Failed to update profile'));
+            }
+        })
+        .catch(error => {
+            alert('Error: ' + error.message);
+        });
+    });
+
+    function editProfile() {
+        document.querySelector('aside a[href="#settings"]').click();
+    }
+
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+    }
+    
